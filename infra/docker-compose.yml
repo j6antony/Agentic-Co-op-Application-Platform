@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16 # template to use instead of manual install of postgres
+    container_name: coop_agent_postgres
+    restart: always
+    environment: #this is just login info and name for the backend connection
+      POSTGRES_USER: coop
+      POSTGRES_PASSWORD: coop
+      POSTGRES_DB: coop_agent
+    ports: # connects mac to the postgres container: "mac port: container port"
+      - "5432:5432"
+    volumes: # this is to ensure that when db has restart that the files are going to the docker volumes and not being erased
+      - coop_agent_pgdata:/var/lib/postgresql/data
+
+volumes:
+  coop_agent_pgdata:
